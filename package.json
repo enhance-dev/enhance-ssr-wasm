@@ -1,0 +1,21 @@
+{
+  "main": "enhance.js",
+  "files": [
+    "enhance.js",
+    "enhance.wasm"
+  ],
+  "scripts": {
+    "install:javy": "rm -r ./javy-cli/ && mkdir -p ./javy-cli && curl -L https://github.com/bytecodealliance/javy/releases/download/v1.4.0/javy-macos-v1.4.0.gz | gzip -d > ./javy-cli/javy-cli && chmod u+x ./javy-cli/javy-cli",
+    "build:js": "esbuild enhance-entry.js --bundle --outfile=enhance.js",
+    "build:wasm": "./javy-cli/javy-cli compile enhance.js -o enhance.wasm",
+    "build": "npm run build:js && npm run build:wasm"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.11"
+  },
+  "dependencies": {
+    "@enhance/ssr": "github:enhance-dev/enhance-ssr#wasm-compat",
+    "@enhance/enhance-style-transform": "github:enhance-dev/enhance-style-transform#wasm-compat",
+    "javy": "^0.1.2"
+  }
+}
