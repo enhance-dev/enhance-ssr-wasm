@@ -1,4 +1,5 @@
 node_modules/
 .DS_Store
-javy-cli/
+bin/
+.build/
 package-lock.json

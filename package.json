@@ -1,14 +1,18 @@
 {
-  "main": "enhance.js",
+  "main": "enhance-entry.js",
   "files": [
-    "enhance.js",
-    "enhance.wasm"
+    "enhance-entry.js",
+    "dist/enhance.wasm"
   ],
   "scripts": {
-    "install:javy": "rm -r ./javy-cli/ && mkdir -p ./javy-cli && curl -L https://github.com/bytecodealliance/javy/releases/download/v1.4.0/javy-macos-v1.4.0.gz | gzip -d > ./javy-cli/javy-cli && chmod u+x ./javy-cli/javy-cli",
-    "build:js": "esbuild enhance-entry.js --bundle --outfile=enhance.js",
-    "build:wasm": "./javy-cli/javy-cli compile enhance.js -o enhance.wasm",
-    "build": "npm run build:js && npm run build:wasm"
+    "check-and-install": "test -f ./bin/javy || npm run install:javy && test -f ./bin/wasmtime || npm run install:wasmtime",
+    "install:javy": "mkdir -p ./bin && curl -L https://github.com/bytecodealliance/javy/releases/download/v1.4.0/javy-arm-macos-v1.4.0.gz | gzip -d > ./bin/javy && chmod u+x ./bin/javy",
+    "install:wasmtime": "mkdir -p ./bin && curl -L https://github.com/bytecodealliance/wasmtime/releases/download/v17.0.1/wasmtime-v17.0.1-aarch64-macos.tar.xz | tar -xJf - -C ./bin && cp ./bin/wasmtime-v17.0.1-aarch64-macos/wasmtime ./bin/wasmtime",
+    "build:js": "mkdir -p ./.build && esbuild enhance-entry.js --bundle --outfile=./.build/enhance.js",
+    "build:wasm": "mkdir -p ./dist && ./bin/javy compile ./.build/enhance.js -o ./dist/enhance.wasm",
+    "build": "npm run build:js && npm run build:wasm",
+    "check-and-build": "test -f ./dist/enhance.wasm || npm run build",
+    "test": "npm run check-and-install && npm run check-and-build && cat ./test/input.json | ./bin/wasmtime ./dist/enhance.wasm"
   },
   "devDependencies": {
     "esbuild": "^0.19.11"
