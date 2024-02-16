@@ -2,19 +2,26 @@ import enhance from '@enhance/ssr'
 import styleTransform from '@enhance/enhance-style-transform'
 import { readFileSync, writeFileSync, STDIO } from `javy/fs`
 
-const inputBuffer = readFileSync(STDIO.Stdin)
-const input = JSON.parse(new TextDecoder().decode(inputBuffer))
+//TODO: Add error handling to std error
+//TODO: Return styles, body, and whole document
+//TODO: Wrap html element in function signature going in. Or add this to Enhance SSR.
 
-const textEncoder = new TextEncoder()
+try {
+  const inputBuffer = readFileSync(STDIO.Stdin)
+  const input = JSON.parse(new TextDecoder().decode(inputBuffer))
 
-const output = ssr({
-  elements: mapStringToFunctionObj(input.elements),
-  initialState: input.initialState || {},
-  markup: input.markup
-})
+  const textEncoder = new TextEncoder()
 
-writeFileSync(STDIO.Stdout, textEncoder.encode(output));
-writeFileSync(STDIO.Stderr, textEncoder.encode("--SSR Complete--"));
+
+  const output = ssr({
+    elements: mapStringToFunctionObj(input.elements),
+    initialState: input.initialState || {},
+    markup: input.markup
+  })
+  writeFileSync(STDIO.Stdout, textEncoder.encode(output))
+} catch (e) {
+  writeFileSync(STDIO.Stderr, textEncoder.encode(JSON.stringify(e)))
+}
 
 
 function ssr({ elements = {}, initialState = {}, markup = '' }) {
@@ -34,6 +41,3 @@ function mapStringToFunctionObj(obj) {
   return functionObj;
 }
 
-//TODO: Add error handling to std error
-//TODO: Return styles, body, and whole document
-//TODO: Wrap html element in function signature going in. Or add this to Enhance SSR.

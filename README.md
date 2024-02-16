@@ -13,34 +13,16 @@ In a working prototype the elements could be passed as strings and initialized a
 
 ## Try it without building
 The compiled wasm is included in the repository. Give it a try. 
+
 1. Install [Wasmtime](https://wasmtime.dev/) to test the output.  
+
 2. Run `cat input.json | wasmtime enhance.wasm` to see results. 
 
 ## Build and Run
-1. Enhance css parser has some node api's that are not needed but must be removed to compile. 
-Credit to @tbeseda for the following steps to remove them.
-  - `@enhance/css-parser` has a reference to `'node:fs'` to support import maps. 
-Comment out the conditional that dynamically requires `source-map-support.js` to in `node_modules/@enhance/css-parser/lib/stringify/index.js` to enable the build.
+1. Download `javy` [built for your environment](https://github.com/bytecodealliance/javy/releases) to `/javy` folder.
 
-2. Enhance uses `nanoid` to generate instance id's. 
-QuickJS does not fully support `crypto` yet, but these instance ids do not need to be secure.
-Comment out references to nanoid in `node_modules/@enhance/ssr/index.js`.
-Replace the `uuidFuction` in the options with the following function.
+2. Build JS and compile WASM with `npm run build`
 
-```javascript
-function fakeUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-```
-This is not for secure applications.
+3. Install [Wasmtime](https://wasmtime.dev/) to test the output.  
 
-3. Download `javy` [built for your environment](https://github.com/bytecodealliance/javy/releases) to `/javy` folder.
-
-4. Build JS and compile WASM with `npm run build`
-
-5. Install [Wasmtime](https://wasmtime.dev/) to test the output.  
-
-6. Run `cat input.json | wasmtime enhance.wasm` to see results. 
+4. Run `cat input.json | wasmtime enhance.wasm` to see results. 
