@@ -19,7 +19,8 @@
     "build:wasm": "mkdir -p ./.build && ls -lt ./bin && ./bin/javy help && ./bin/javy compile ./.build/enhance.js -o ./.build/enhance.wasm",
     "build": "npm run build:js && npm run build:wasm",
     "check-and-build": "test -f ./.build/enhance.wasm || npm run check-and-install && npm run build",
-    "test": "npm run check-and-install && npm run check-and-build && cat ./test/input.json | ./bin/wasmtime ./.build/enhance.wasm"
+    "test": "npm run check-and-install && npm run check-and-build && cat ./test/input.json | ./bin/wasmtime ./.build/enhance.wasm",
+    "test:CI": "npm run install:javy && npm run check-and-build && cat ./test/input.json | wasmtime ./.build/enhance.wasm"
   },
   "devDependencies": {
     "esbuild": "^0.19.11"
