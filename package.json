@@ -6,8 +6,10 @@
   ],
   "scripts": {
     "clean": "rm -r ./.build",
-    "install:javy": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run install:mac-javy; elif [[ \"$OSTYPE\" == \"linux\"* ]]; then npm run install:linux-javy; else echo 'Unsupported OS'; fi",
-    "install:wasmtime": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run install:mac-wasmtime; elif [[ \"$OSTYPE\" == \"linux\"* ]]; then npm run install:linux-wasmtime; else echo 'Unsupported OS'; fi",
+    "install:javy:old": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run install:mac-javy; elif [[ \"$OSTYPE\" == \"linux\"* ]]; then npm run install:linux-javy; else echo 'Unsupported OS'; fi",
+    "install:javy": "node -e \"const { execSync } = require('child_process'); const os = require('os'); const platform = os.platform(); if (platform.startsWith('darwin')) { execSync('npm run install:mac-javy', { stdio: 'inherit' }); } else if (platform.startsWith('linux')) { execSync('npm run install:linux-javy', { stdio: 'inherit' }); } else { console.error('Unsupported OS'); process.exit(1); }\"",
+    "install:wasmtime:old": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run install:mac-wasmtime; elif [[ \"$OSTYPE\" == \"linux\"* ]]; then npm run install:linux-wasmtime; else echo 'Unsupported OS'; fi",
+    "install:wasmtime": "node -e \"const { execSync } = require('child_process'); const os = require('os'); const platform = os.platform(); if (platform.startsWith('darwin')) { execSync('npm run install:mac-wasmtime', { stdio: 'inherit' }); } else if (platform.startsWith('linux')) { execSync('npm run install:linux-wasmtime', { stdio: 'inherit' }); } else { console.error('Unsupported OS'); process.exit(1); }\"",
     "check-and-install": "test -f ./bin/javy || npm run install:javy && test -f ./bin/wasmtime || npm run install:wasmtime",
     "install:mac-javy": "mkdir -p ./bin && curl -L https://github.com/bytecodealliance/javy/releases/download/v1.4.0/javy-arm-macos-v1.4.0.gz | gzip -d > ./bin/javy && chmod u+x ./bin/javy",
     "install:mac-wasmtime": "mkdir -p ./bin && curl -L https://github.com/bytecodealliance/wasmtime/releases/download/v17.0.1/wasmtime-v17.0.1-aarch64-macos.tar.xz | tar -xJf - -C ./bin && cp ./bin/wasmtime-v17.0.1-aarch64-macos/wasmtime ./bin/wasmtime",
