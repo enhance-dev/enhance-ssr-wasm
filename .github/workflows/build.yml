@@ -24,11 +24,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Setup `wasmtime`
+        uses: bytecodealliance/actions/wasmtime/setup@v1
+        with:
+          version: "v17.0.1"
+
+      - name: Run `wasmtime version`
+        run: "wasmtime --version"
+
       - name: Build
         run: npm run check-and-build
 
       - name: Run tests
-        run: npm test
+        run: npm run test:CI
 
       - name: Gzip wasm file
         run: gzip -c .build/enhance.wasm > enhance.wasm.gz
