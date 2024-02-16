@@ -5,7 +5,7 @@
     "dist/enhance.wasm"
   ],
   "scripts": {
-    "clean": "rm -r ./.build && rm -r ./dist",
+    "clean": "rm -r ./.build",
     "install:javy": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run install:mac-javy; elif [[ \"$OSTYPE\" == \"linux\"* ]]; then npm run install:linux-javy; else echo 'Unsupported OS'; fi",
     "install:wasmtime": "if [[ \"$OSTYPE\" == \"darwin\"* ]]; then npm run install:mac-wasmtime; elif [[ \"$OSTYPE\" == \"linux\"* ]]; then npm run install:linux-wasmtime; else echo 'Unsupported OS'; fi",
     "check-and-install": "test -f ./bin/javy || npm run install:javy && test -f ./bin/wasmtime || npm run install:wasmtime",
@@ -14,10 +14,10 @@
     "install:linux-javy": "mkdir -p ./bin && curl -L https://github.com/bytecodealliance/javy/releases/download/v1.4.0/javy-arm-macos-v1.4.0.gz | gzip -d > ./bin/javy && chmod u+x ./bin/javy",
     "install:linux-wasmtime": "mkdir -p ./bin && curl -L https://github.com/bytecodealliance/wasmtime/releases/download/v17.0.1/wasmtime-v17.0.1-aarch64-macos.tar.xz | tar -xJf - -C ./bin && cp ./bin/wasmtime-v17.0.1-aarch64-macos/wasmtime ./bin/wasmtime",
     "build:js": "mkdir -p ./.build && esbuild enhance-entry.js --bundle --outfile=./.build/enhance.js",
-    "build:wasm": "mkdir -p ./dist && ./bin/javy compile ./.build/enhance.js -o ./dist/enhance.wasm",
+    "build:wasm": "mkdir -p ./.build && ./bin/javy compile ./.build/enhance.js -o ./.build/enhance.wasm",
     "build": "npm run build:js && npm run build:wasm",
-    "check-and-build": "test -f ./dist/enhance.wasm || npm run build",
-    "test": "npm run check-and-install && npm run check-and-build && cat ./test/input.json | ./bin/wasmtime ./dist/enhance.wasm"
+    "check-and-build": "test -f ./.build/enhance.wasm || npm run build",
+    "test": "npm run check-and-install && npm run check-and-build && cat ./test/input.json | ./bin/wasmtime ./.build/enhance.wasm"
   },
   "devDependencies": {
     "esbuild": "^0.19.11"
