@@ -1,5 +1,5 @@
 {
-    "name": "enhance-ssr-wasm/php",
+    "name": "enhance-ssr-wasm/php-demo",
     "type": "project",
     "license": "MIT",
     "autoload": {
