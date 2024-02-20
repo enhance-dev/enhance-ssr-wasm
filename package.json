@@ -1,5 +1,6 @@
 {
   "main": "enhance-entry.js",
+  "type": "module",
   "files": [
     "enhance-entry.js",
     "dist/enhance.wasm"
@@ -20,6 +21,7 @@
     "build": "npm run build:js && npm run build:wasm",
     "check-and-build": "test -f ./.build/enhance.wasm || npm run check-and-install && npm run build",
     "test": "npm run check-and-install && npm run check-and-build && cat ./test/input.json | ./bin/wasmtime ./.build/enhance.wasm",
+    "test:test": "node --test test/",
     "test:CI": "npm run install:javy && npm run check-and-build && cat ./test/input.json | wasmtime ./.build/enhance.wasm"
   },
   "devDependencies": {
