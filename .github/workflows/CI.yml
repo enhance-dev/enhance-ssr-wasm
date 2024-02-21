@@ -10,7 +10,7 @@ jobs:
 
     - name: Test Install Script
       run: |
-        sh ./wasm/install.sh
+        sh install.sh
         extism-js --version
 
     - name: Install Deps
