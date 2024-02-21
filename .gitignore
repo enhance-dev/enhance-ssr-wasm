@@ -1,5 +1,6 @@
 node_modules/
 .DS_Store
-bin/
-.build/
+dist/
 package-lock.json
+binaryen
+binaryen*
