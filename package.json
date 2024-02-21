@@ -1,0 +1,17 @@
+{
+  "files": [
+    "dist/enhance-ssr.wasm"
+  ],
+  "scripts": {
+    "build": "rm -rf ./dist && mkdir dist && node scripts/esbuild.mjs && extism-js dist/enhance-ssr.js -i src/enhance-ssr.d.ts -o dist/enhance-ssr.wasm && rm -rf dist/enhance-ssr.js && rm -rf dist/enhance-ssr.js.map",
+    "check": "extism call dist/enhance-ssr.wasm ssr --input=\"$(cat test/test.json)\" --wasi",
+    "test": "node --test test/"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.12"
+  },
+  "dependencies": {
+    "@enhance/enhance-style-transform": "github:enhance-dev/enhance-style-transform#wasm-compat",
+    "@enhance/ssr": "github:enhance-dev/enhance-ssr#wasm-compat"
+  }
+}

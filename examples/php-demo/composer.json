@@ -1,0 +1,20 @@
+{
+    "name": "enhance-ssr-wasm/php-demo",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "EnhanceSsrWasm\\Php\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mariohamann",
+            "email": "mario.hamann@virtual-identity.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "extism/extism": "dev-main"
+    }
+}

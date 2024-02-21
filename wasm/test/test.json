@@ -1,7 +1,0 @@
-{
-  "markup": "<my-header>Hello World</my-header>",
-  "elements": {
-    "my-header": "function MyHeader({ html }) { return html`<h1><slot></slot></h1> ` }"
-  },
-  "initialState": {}
-}

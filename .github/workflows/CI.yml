@@ -1,0 +1,23 @@
+name: "CI Install Script"
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Test Install Script
+      run: |
+        sh ./wasm/install.sh
+        extism-js --version
+
+    - name: Install Deps
+      run: npm install
+
+    - name: Build
+      run: npm run build
+
+    - name: Tests
+      run: npm test

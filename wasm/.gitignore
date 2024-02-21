@@ -1,8 +1,0 @@
-node_modules/
-.DS_Store
-bin/
-.build/
-package-lock.json
-binaryen
-binaryen*
-install.sh
