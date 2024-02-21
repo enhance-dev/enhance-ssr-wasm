@@ -1,9 +1,6 @@
 node_modules/
 .DS_Store
-bin/
 dist/
-.build/
 package-lock.json
 binaryen
 binaryen*
-#install.sh
