@@ -1,28 +1,40 @@
 ## Enhance SSR WASM
 
-Compiling Enhance SSR to WASM allows support for many runtimes like Python and Ruby. 
+Compiling Enhance SSR to WASM allows server-side rendering of Enhance elements in any language that supports WASM.
 
-This uses [Javy](https://github.com/bytecodealliance/javy) to compile enhance along with an embedded JavaScript runtime ([QuickJS](https://github.com/bellard/quickjs)).
-The resulting WASM module requires a [WASI](https://wasi.dev/) (Web Assembly System Interface) compatible environment like [wasmtime](https://docs.wasmtime.dev/introduction.html).
-Wasmtime has supported packages for many [languages](https://docs.wasmtime.dev/lang.html) (including, python, ruby, rust, etc.).
-There is also a browser shim to run in the [browser](https://github.com/bjorn3/browser_wasi_shim) although this not necessary because enhance can be bundled direcly in JS for the browser. 
-
-The compiled wasm reads from stdin and writes to stdout so inputs (element, state, and markup) need to be written as a string. 
-The demo has elements compiled with the WASM binary which is not practical for a real use case. 
-In a working prototype the elements could be passed as strings and initialized as functions with a `new Function()`.
-
-## Try it without building
-The compiled wasm is included in the repository. Give it a try. 
-
-1. Install [Wasmtime](https://wasmtime.dev/) to test the output.  
-
-2. Run `cat input.json | wasmtime enhance.wasm` to see results. 
+This project compiles [enhance-ssr](https://github.com/enhance-dev/enhance-ssr) into an [Extism](https://extism.org/) plugin.
+It can be used with any language that Extism has an SDK for including Python, Ruby, .NET, Rust, Go, PHP, Java and more.
 
 ## Build and Run
-1. Download `javy` [built for your environment](https://github.com/bytecodealliance/javy/releases) to `/javy` folder.
+1. Install `extism-js`: `sh install.sh`
 
-2. Build JS and compile WASM with `npm run build`
+2. Build: `npm run build`
 
-3. Install [Wasmtime](https://wasmtime.dev/) to test the output.  
+## Usage
+The plugin accepts a JSON string as input with three properties.
+```json
+{
+  markup: "<my-header>Hello World</my-header>",
+  elements: {
+    "my-header":
+      "function MyHeader({ html }) { return html`<h1><slot></slot></h1>` }",
+  },
+  initialState: {},
+}
 
-4. Run `cat input.json | wasmtime enhance.wasm` to see results. 
+```
+
+1. `markup`: HTML string for the page to be rendered.
+2. `elements`: Is an Object of elements. The keys are the custom element names and values are string representations of the function for rendering the elements.
+3. `initialState`: Is an object of data used to render the components.
+
+The output returned by the plugin is also a JSON string with multiple properties.
+```json
+{
+  document: "<html><head></head><body><my-header enhanced=\"✨\"><h1>Hello World</h1></my-header></body></html>",
+  body: "<my-header enhanced=\"✨\"><h1>Hello World</h1></my-header>",
+  styles: "",
+}
+
+```
+

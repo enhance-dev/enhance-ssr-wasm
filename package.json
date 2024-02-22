@@ -1,12 +1,16 @@
 {
+  "package": "enhance-ssr",
+  "version": "0.0.0",
+  "author": "Ryan Bethel",
   "scripts": {
     "build": "rm -rf ./dist && mkdir dist && node scripts/esbuild.mjs && extism-js dist/enhance-ssr.js -i src/enhance-ssr.d.ts -o dist/enhance-ssr.wasm && rm -rf dist/enhance-ssr.js && rm -rf dist/enhance-ssr.js.map",
     "check": "extism call dist/enhance-ssr.wasm ssr --input=\"$(cat test/test.json)\" --wasi",
-    "test": "node --test test/"
+    "test": "node --test test/ | tap-arc"
   },
   "devDependencies": {
     "@extism/extism": "^1.0.2",
-    "esbuild": "^0.19.12"
+    "esbuild": "^0.19.12",
+    "tap-arc": "^1.2.2"
   },
   "dependencies": {
     "@enhance/enhance-style-transform": "github:enhance-dev/enhance-style-transform#wasm-compat",
