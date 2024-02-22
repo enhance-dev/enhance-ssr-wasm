@@ -11,6 +11,30 @@ It can be used with any language that Extism has an SDK for including Python, Ru
 2. Build: `npm run build`
 
 ## Usage
+Here is an example using Node JS.
+```javascript
+import createPlugin from "@extism/extism";
+
+const plugin = await createPlugin("dist/enhance-ssr.wasm", {
+  useWasi: true,
+})
+
+const input = {
+  markup: "<my-header>Hello World</my-header>",
+  elements: {
+    "my-header":
+      "function MyHeader({ html }) { return html`<style>h1{color:red;}</style><h1><slot></slot></h1>` }",
+  },
+  initialState: {},
+}
+
+const output = await plugin.call("ssr", JSON.stringify(input))
+const parsedOutput = JSON.parse(output.text())
+const htmlDoc = parsedOutput.document 
+
+})
+
+```
 
 ### Input:
 The plugin accepts a JSON string as input with three properties.
@@ -41,30 +65,6 @@ The output returned by the plugin is also a JSON string with multiple properties
 
 ```
 
-
-```javascript
-import createPlugin from "@extism/extism";
-
-const plugin = await createPlugin("dist/enhance-ssr.wasm", {
-  useWasi: true,
-})
-
-const input = {
-  markup: "<my-header>Hello World</my-header>",
-  elements: {
-    "my-header":
-      "function MyHeader({ html }) { return html`<style>h1{color:red;}</style><h1><slot></slot></h1>` }",
-  },
-  initialState: {},
-}
-
-const output = await plugin.call("ssr", JSON.stringify(input))
-const parsedOutput = JSON.parse(output.text())
-const htmlDoc = parsedOutput.document 
-
-})
-
-```
 
 ## Latest Release:
 The [latest release](https://github.com/enhance-dev/enhance-ssr-wasm/releases/latest) of the compiled plugin can be found under the Releases on this repository.
