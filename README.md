@@ -14,12 +14,12 @@ It can be used with any language that Extism has an SDK for including Python, Ru
 The plugin accepts a JSON string as input with three properties.
 ```json
 {
-  markup: "<my-header>Hello World</my-header>",
-  elements: {
+  "markup": "<my-header>Hello World</my-header>",
+  "elements": {
     "my-header":
       "function MyHeader({ html }) { return html`<h1><slot></slot></h1>` }",
   },
-  initialState: {},
+  "initialState": {},
 }
 
 ```
@@ -31,9 +31,9 @@ The plugin accepts a JSON string as input with three properties.
 The output returned by the plugin is also a JSON string with multiple properties.
 ```json
 {
-  document: "<html><head></head><body><my-header enhanced=\"✨\"><h1>Hello World</h1></my-header></body></html>",
-  body: "<my-header enhanced=\"✨\"><h1>Hello World</h1></my-header>",
-  styles: "",
+  "document": "<html><head></head><body><my-header enhanced=\"✨\"><h1>Hello World</h1></my-header></body></html>",
+  "body": "<my-header enhanced=\"✨\"><h1>Hello World</h1></my-header>",
+  "styles": "",
 }
 
 ```
