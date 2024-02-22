@@ -1,6 +1,6 @@
 {
   "package": "enhance-ssr",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Ryan Bethel",
   "scripts": {
     "build": "rm -rf ./dist && mkdir dist && node scripts/esbuild.mjs && extism-js dist/enhance-ssr.js -i src/enhance-ssr.d.ts -o dist/enhance-ssr.wasm && rm -rf dist/enhance-ssr.js && rm -rf dist/enhance-ssr.js.map",
