@@ -2,11 +2,15 @@ import enhance from "@enhance/ssr"
 import styleTransform from "@enhance/enhance-style-transform"
 
 export function ssr() {
+  let configElements = Config.get("elements")
+  if (configElements) { configElements = JSON.parse(configElements) }
   const input = JSON.parse(Host.inputString())
+
+  const elementStrings = input.elements || configElements || {}
 
   const html = enhance({
     styleTransforms: [styleTransform],
-    elements: mapStringToFunctionObj(input.elements || {}),
+    elements: mapStringToFunctionObj(elementStrings),
     initialState: input.initialState || {},
   })
 
@@ -28,7 +32,7 @@ function parseDoc(htmlString) {
   const bodyMatch = htmlString.match(/<body.*?>([\s\S]*)<\/body>/)
   const bodyContent = bodyMatch ? bodyMatch[1] : ''
 
-  const headContentMatch = htmlString.match(/<head.*?>([\s\S]*)<\/head>/)
+  const headContentMatch = htmlString.match(/<head\b[^>]*>([\s\S]*?)<\/head>/);
   const headContent = headContentMatch ? headContentMatch[1] : ''
   const styleMatch = headContent.match(/<style.*?>([\s\S]*?)<\/style>/)
   const styleContent = styleMatch ? styleMatch[1] : ''

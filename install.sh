@@ -43,6 +43,7 @@ if ! which "wasm-merge" > /dev/null; then
   sudo mkdir /usr/local/binaryen
   sudo mv binaryen/bin/wasm-merge /usr/local/binaryen/wasm-merge
   sudo ln -s /usr/local/binaryen/wasm-merge /usr/local/bin/wasm-merge
+  sudo ln -s /usr/local/binaryen/wasm-opt /usr/local/bin/wasm-opt
 
 else
   echo "wasm-merge already installed"
