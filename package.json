@@ -13,7 +13,7 @@
     "tap-arc": "^1.2.2"
   },
   "dependencies": {
-    "@enhance/enhance-style-transform": "github:enhance-dev/enhance-style-transform#wasm-compat",
+    "@enhance/enhance-style-transform": "github:enhance-dev/enhance-style-transform#postcss",
     "@enhance/ssr": "github:enhance-dev/enhance-ssr#wasm-compat"
   }
 }
