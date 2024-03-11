@@ -14,7 +14,7 @@ case "$ARCH" in
   *)                echo "unknown arch: $ARCH" && exit 1 ;;
 esac
 
-export TAG="v1.0.0-rc6"
+export TAG="v1.0.0-rc7"
 export BINARYEN_TAG="version_116"
 
 curl -L -O "https://github.com/extism/js-pdk/releases/download/$TAG/extism-js-$ARCH-$OS-$TAG.gz"

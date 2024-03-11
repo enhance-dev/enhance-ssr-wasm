@@ -1,0 +1,29 @@
+"Group ID","Y Label","X Label","X Value","Node","Wasm"
+
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","0","2","24"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","1","14","47"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","10","17","35"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","100","21","200"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","1000","229","1027"
+
+
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","0","1","0"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","1","2","2"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","10","0","8"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","100","6","90"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","1000","71","790"
+
+
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","0","0","0"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","1","1","0"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","10","1","2"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","100","2","14"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","1000","2","131"
+
+
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","0","0","0"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","1","1","2"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","10","1","1"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","100","0","2"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","1000","1","1"
+

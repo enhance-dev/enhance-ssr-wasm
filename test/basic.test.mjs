@@ -4,6 +4,17 @@ import createPlugin from "@extism/extism";
 
 const plugin = await createPlugin("dist/enhance-ssr.wasm", {
   useWasi: true,
+  logLevel: "info",
+  // functions: {
+  //   env: {
+  //     // NOTE: the first argument is always a CurrentPlugin
+  //     //kv_read(cp: CurrentPlugin, offs: bigint) {
+  //     hostTime(cp, offs) {
+  //       const epochTime = new Date().getTime();
+  //       return cp.store(epochTime.toString());
+  //     }
+  //   }
+  // }
 })
 
 const input = {

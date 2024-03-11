@@ -5,13 +5,21 @@
   "scripts": {
     "build": "rm -rf ./dist && mkdir dist && node scripts/esbuild.mjs && extism-js dist/enhance-ssr.js -i src/enhance-ssr.d.ts -o dist/enhance-ssr.wasm && rm -rf dist/enhance-ssr.js && rm -rf dist/enhance-ssr.js.map",
     "check": "extism call dist/enhance-ssr.wasm ssr --input=\"$(cat test/test.json)\" --wasi",
-    "test": "node --test test/ | tap-arc"
+    "test": "node --test test/*.test.mjs | tap-arc",
+    "build:for-quick": "mkdir -p test/profiling/.build && esbuild test/profiling/quick-wrap.mjs --bundle --outfile=test/profiling/.build/quickout.js",
+    "test:quick": "qjs test/profiling/.build/quickout.js"
+  },
+  "engines": {
+    "node:": ">=20"
   },
   "devDependencies": {
     "@esbuild-plugins/node-modules-polyfill": "^0.2.2",
     "@extism/extism": "^1.0.2",
+    "csv-parse": "^5.5.5",
     "esbuild": "^0.19.12",
     "esbuild-plugin-polyfill-node": "^0.3.0",
+    "jsvu": "^2.4.0",
+    "plotly.js-basic-dist": "^2.30.0",
     "tap-arc": "^1.2.2"
   },
   "dependencies": {

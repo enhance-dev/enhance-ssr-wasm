@@ -2,7 +2,7 @@ import esbuild from 'esbuild';
 // import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
 
 esbuild.build({
-  entryPoints: ['src/enhance-ssr.js'],
+  entryPoints: ['src/enhance-ssr.mjs'],
   outdir: 'dist',
   bundle: true,
   sourcemap: true,
