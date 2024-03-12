@@ -8,8 +8,8 @@ const execPromise = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const scriptPath = join(__dirname, './node-and-wasm.mjs');
-const outputPath = join(__dirname, './profile.csv');
+const scriptPath = join(__dirname, './.build/quickout.js');
+const outputPath = join(__dirname, './profile-quickjs.csv');
 
 async function main() {
   const result = await runScriptAndCaptureOutput(scriptPath)
@@ -25,7 +25,7 @@ main();
 
 async function runScriptAndCaptureOutput(scriptPath) {
   try {
-    const { stdout, stderr } = await execPromise(`node ${scriptPath}`);
+    const { stdout, stderr } = await execPromise(`qjs ${scriptPath}`);
     if (stderr) console.error('Error:', stderr);
     return stdout;
   } catch (error) {
@@ -35,7 +35,7 @@ async function runScriptAndCaptureOutput(scriptPath) {
 
 function parseOutputToCSV(output) {
   const lines = output.split('\n');
-  let groups = [{ csvData: `"Group ID","Y Label","X Label","X Value","Node","Wasm"\n` }];
+  let groups = [{ csvData: `"Group ID","Y Label","X Label","X Value","QuickJS"\n` }];
   let currentGroup = null;
   let readingJSON = false;
   let jsonBuffer = '';
@@ -60,9 +60,9 @@ function parseOutputToCSV(output) {
       }
     } else if (readingJSON) {
       jsonBuffer += line;
-    } else if (line.startsWith('Wasm:') || line.startsWith('Node:')) {
+    } else if (line.startsWith('QuickJS:')) {
       captureNextLineFor = line.split(':')[0].trim(); // Prepare to capture the next line for either Wasm or Node
-    } else if (captureNextLineFor && line.trim().includes(currentGroup.config.yValue)) {
+    } else if (captureNextLineFor && line.trim().startsWith(currentGroup.config.yValue)) {
       const regex = /(\w+)\s*:\s*(\d+)/g;
       let match;
       let result = {}
@@ -75,7 +75,7 @@ function parseOutputToCSV(output) {
       }
 
       const metricName = currentGroup.config.yValue
-      const value = result[metricName];
+      const value = result[metricName]
       const lastDataPoint = currentGroup.dataPoints[currentGroup.dataPoints.length - 1];
       if (!lastDataPoint.metrics) lastDataPoint.metrics = {};
       lastDataPoint.metrics[captureNextLineFor] = lastDataPoint.metrics[captureNextLineFor] || {};
@@ -92,9 +92,8 @@ function finalizeCurrentGroup(groups, currentGroup) {
   const yLabel = `"${currentGroup.config.yLabel}"`;
   const xLabel = `"${currentGroup.config.xLabel}"`;
   const body = currentGroup.dataPoints.map(dp => {
-    const nodeValue = dp.metrics && dp.metrics['Node'] && dp.metrics['Node'][currentGroup.config.yValue] !== undefined ? dp.metrics['Node'][currentGroup.config.yValue] : '';
-    const wasmValue = dp.metrics && dp.metrics['Wasm'] && dp.metrics['Wasm'][currentGroup.config.yValue] !== undefined ? dp.metrics['Wasm'][currentGroup.config.yValue] : '';
-    return `${groupLabel},${yLabel},${xLabel},"${dp[currentGroup.config.xValue]}","${nodeValue}","${wasmValue}"\n`;
+    const quickjsValue = dp.metrics && dp.metrics['QuickJS'] && dp.metrics['QuickJS'][currentGroup.config.yValue] !== undefined ? dp.metrics['QuickJS'][currentGroup.config.yValue] : '';
+    return `${groupLabel},${yLabel},${xLabel},"${dp[currentGroup.config.xValue]}","${quickjsValue}"\n`;
   }).join('');
 
   currentGroup.csvData = `

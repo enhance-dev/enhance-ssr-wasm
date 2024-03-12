@@ -1,0 +1,29 @@
+"Group ID","Y Label","X Label","X Value","QuickJS"
+
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","0","1"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","1","3"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","10","9"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","100","83"
+"Matching Elements and Instances","SSR Time (ms)","Elements Count","1000","874"
+
+
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","0","0"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","1","1"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","10","7"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","100","68"
+"Registered Instances with One Element","SSR Time (ms)","Instances Count","1000","728"
+
+
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","0","0"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","1","0"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","10","1"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","100","10"
+"Unregistered Instances with One Element","SSR Time (ms)","Instances Count","1000","111"
+
+
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","0","0"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","1","1"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","10","1"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","100","0"
+"Elements with one Instance on Page","SSR Time (ms)","Elements Count","1000","1"
+

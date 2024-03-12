@@ -8740,92 +8740,83 @@
   }
 
   // test/profiling/quick-wrap.mjs
-  (function() {
+  (async function() {
     function myHeader({ html, state }) {
       return html`
     <style>h1 { color: red; }</style><h1><slot></slot></h1>
     <p>Message: ${state?.store?.message || "no message"}</p>`;
     }
     let myHeaderString = myHeader.toString();
-    let elements = {};
-    let htmlString = "";
-    for (let i = 0; i <= 1; i++) {
-      elements[`my-header-${i}`] = myHeaderString;
+    async function runProfile(params) {
+      const { elements = 0, matchingInstances = 0, unregisteredInstances = 0, registeredInstances = 0 } = params;
+      console.log("\n** NEW DATA POINT **\n");
+      console.log("** START JSON ** \n", JSON.stringify(params), "\n** END JSON **");
+      let els = {};
+      if (elements) {
+        for (let i = 0; i <= elements; i++) {
+          els[`my-header-${i}`] = myHeaderString;
+        }
+      }
+      let htmlString = "";
+      if (matchingInstances) {
+        for (let i = 0; i <= matchingInstances; i++) {
+          htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
+        }
+      }
+      let htmlStringDefined = "<my-header-0>hello</my-header-0>".repeat(registeredInstances);
+      let htmlStringUnRegistered = "<not-found>hello</not-found>".repeat(unregisteredInstances);
+      let input = {
+        markup: `${htmlString}${registeredInstances ? htmlStringDefined : ""}${unregisteredInstances ? htmlStringUnRegistered : ""}`,
+        elements: els,
+        initialState: {}
+      };
+      console.log("QuickJS: ");
+      mock_harness_default({ input: JSON.stringify(input) });
+      console.log("\n** END DATA POINT **\n");
     }
-    for (let i = 0; i <= 1; i++) {
-      htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
+    function markGroup(meta) {
+      const {
+        groupLabel = "Group Label",
+        xLabel = "X Label",
+        xValue = "elements",
+        yLabel = "Y Label",
+        yValue = "parseTime"
+      } = meta;
+      console.log("\n** NEW GROUP **\n");
+      console.log("** START JSON **\n");
+      console.log(JSON.stringify(meta));
+      console.log("\n** END JSON **");
     }
-    let input = {
-      markup: htmlString + "<my-header-1>hello</my-header-1>".repeat(1),
-      elements,
-      initialState: {}
-    };
-    console.log("1 element 1 instance");
-    const out = mock_harness_default({ input: JSON.stringify(input) });
-    console.log("10 elements 10 instances");
-    for (let i = 0; i <= 10; i++) {
-      elements[`my-header-${i}`] = myHeaderString;
+    function endGroup() {
+      console.log("\n** END GROUP **\n");
     }
-    for (let i = 0; i <= 10; i++) {
-      htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
-    }
-    input = {
-      markup: htmlString + "<my-header-1>hello</my-header-1>".repeat(1),
-      elements,
-      initialState: {}
-    };
-    mock_harness_default({ input: JSON.stringify(input) });
-    console.log("100 el 100 inst");
-    for (let i = 0; i <= 100; i++) {
-      elements[`my-header-${i}`] = myHeaderString;
-    }
-    for (let i = 0; i <= 100; i++) {
-      htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
-    }
-    input = {
-      markup: htmlString + "<my-header-1>hello</my-header-1>".repeat(1),
-      elements,
-      initialState: {}
-    };
-    mock_harness_default({ input: JSON.stringify(input) });
-    console.log("1000 el 1000 inst");
-    for (let i = 0; i <= 1e3; i++) {
-      elements[`my-header-${i}`] = myHeaderString;
-    }
-    for (let i = 0; i <= 1e3; i++) {
-      htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
-    }
-    input = {
-      markup: htmlString + "<my-header-1>hello</my-header-1>".repeat(1),
-      elements,
-      initialState: {}
-    };
-    mock_harness_default({ input: JSON.stringify(input) });
-    console.log(" 1000 el 1 inst");
-    for (let i = 0; i <= 1e3; i++) {
-      elements[`my-header-${i}`] = myHeaderString;
-    }
-    for (let i = 0; i <= 1; i++) {
-      htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
-    }
-    input = {
-      markup: htmlString + "<my-header-1>hello</my-header-1>".repeat(1),
-      elements,
-      initialState: {}
-    };
-    mock_harness_default({ input: JSON.stringify(input) });
-    console.log("1 el 1000 inst");
-    for (let i = 0; i <= 1; i++) {
-      elements[`my-header-${i}`] = myHeaderString;
-    }
-    for (let i = 0; i <= 1e3; i++) {
-      htmlString += `<my-header-${i}>Hello</my-header-${i}>`;
-    }
-    input = {
-      markup: htmlString + "<my-header-1>hello</my-header-1>".repeat(1),
-      elements,
-      initialState: {}
-    };
-    mock_harness_default({ input: JSON.stringify(input) });
+    markGroup({ groupLabel: "Matching Elements and Instances", xLabel: "Elements Count", xValue: "elements", yLabel: "SSR Time (ms)", yValue: "parseTime" });
+    await runProfile({ elements: 0, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 1, registeredInstances: 0, unregisteredInstances: 0 });
+    await runProfile({ elements: 10, matchingInstances: 10, registeredInstances: 0, unregisteredInstances: 0 });
+    await runProfile({ elements: 100, matchingInstances: 100, registeredInstances: 0, unregisteredInstances: 0 });
+    await runProfile({ elements: 1e3, matchingInstances: 1e3, registeredInstances: 0, unregisteredInstances: 0 });
+    endGroup();
+    markGroup({ groupLabel: "Registered Instances with One Element", xLabel: "Instances Count", xValue: "registeredInstances", yLabel: "SSR Time (ms)", yValue: "parseTime" });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 10, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 100, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 1e3, unregisteredInstances: 0 });
+    endGroup();
+    markGroup({ groupLabel: "Unregistered Instances with One Element", xLabel: "Instances Count", xValue: "unregisteredInstances", yLabel: "SSR Time (ms)", yValue: "parseTime" });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 1 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 10 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 100 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 1e3 });
+    endGroup();
+    markGroup({ groupLabel: "Elements with one Instance on Page", xLabel: "Elements Count", xValue: "elements", yLabel: "SSR Time (ms)", yValue: "parseTime" });
+    await runProfile({ elements: 0, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 });
+    await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 });
+    await runProfile({ elements: 10, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 });
+    await runProfile({ elements: 100, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 });
+    await runProfile({ elements: 1e3, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 });
+    endGroup();
   })();
 })();

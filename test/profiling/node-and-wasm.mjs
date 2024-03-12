@@ -75,7 +75,7 @@ import mock from './mock-harness.mjs'
 
 
 
-  markGroup({ groupLabel: "Matching Elements and Instances", xLabel: "Elements Count", xValue: "elements", yLabel: "SSR Time (ms)", yValue: "parseTime" })
+  markGroup({ groupLabel: "Matching Elements and Instances", xLabel: "Elements Count", xValue: "elements", yLabel: "SSR Time (ms)", yValue: "ssrTime" })
   await runProfile({ elements: 0, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 0 })
   await runProfile({ elements: 1, matchingInstances: 1, registeredInstances: 0, unregisteredInstances: 0 })
   await runProfile({ elements: 10, matchingInstances: 10, registeredInstances: 0, unregisteredInstances: 0 })
@@ -83,7 +83,7 @@ import mock from './mock-harness.mjs'
   await runProfile({ elements: 1000, matchingInstances: 1000, registeredInstances: 0, unregisteredInstances: 0 })
   endGroup()
 
-  markGroup({ groupLabel: "Registered Instances with One Element", xLabel: "Instances Count", xValue: "registeredInstances", yLabel: "SSR Time (ms)", yValue: "parseTime" })
+  markGroup({ groupLabel: "Registered Instances with One Element", xLabel: "Instances Count", xValue: "registeredInstances", yLabel: "SSR Time (ms)", yValue: "ssrTime" })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 0 })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 10, unregisteredInstances: 0 })
@@ -92,7 +92,7 @@ import mock from './mock-harness.mjs'
   endGroup()
 
 
-  markGroup({ groupLabel: "Unregistered Instances with One Element", xLabel: "Instances Count", xValue: "unregisteredInstances", yLabel: "SSR Time (ms)", yValue: "parseTime" })
+  markGroup({ groupLabel: "Unregistered Instances with One Element", xLabel: "Instances Count", xValue: "unregisteredInstances", yLabel: "SSR Time (ms)", yValue: "ssrTime" })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 0 })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 1 })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 10 })
@@ -100,7 +100,7 @@ import mock from './mock-harness.mjs'
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 0, unregisteredInstances: 1000 })
   endGroup()
 
-  markGroup({ groupLabel: "Elements with one Instance on Page", xLabel: "Elements Count", xValue: "elements", yLabel: "SSR Time (ms)", yValue: "parseTime" })
+  markGroup({ groupLabel: "Elements with one Instance on Page", xLabel: "Elements Count", xValue: "elements", yLabel: "SSR Time (ms)", yValue: "ssrTime" })
   await runProfile({ elements: 0, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 })
   await runProfile({ elements: 1, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 })
   await runProfile({ elements: 10, matchingInstances: 0, registeredInstances: 1, unregisteredInstances: 0 })

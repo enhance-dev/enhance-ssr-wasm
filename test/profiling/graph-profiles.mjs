@@ -47,11 +47,11 @@ function generateChartHTML(data) {
       xValues: groupData.map(row => row['X Value']),
       nodeData: groupData.map(row => row['Node']),
       wasmData: groupData.map(row => row['Wasm']),
+      quickjsData: groupData.map(row => row['QuickJS']),
       yLabel: groupData[0]['Y Label'],
       xLabel: groupData[0]['X Label'],
       seriesLabel: 'Runtime',
-      seriesValues: ['Node', 'Wasm'],
-
+      seriesValues: ['Node', 'Wasm', 'QuickJS'],
     })
   })
 
@@ -66,7 +66,7 @@ function generateChartHTML(data) {
 </head>
 <body>
 ${graphs.map((graph, i) => `
-    <div id="chart-${i}" width=500px ></div>
+    <div id="chart-${i}" height=500px ></div>
 
 <script type="text/javascript"> 
    var options = {
@@ -78,6 +78,10 @@ ${graphs.map((graph, i) => `
           {
             name: "${graph.seriesValues[1]}",
             data: [${graph.wasmData}]
+          },
+          {
+            name: "${graph.seriesValues[2]}",
+            data: [${graph.quickjsData}]
           }
         ],
           chart: {
@@ -95,7 +99,7 @@ ${graphs.map((graph, i) => `
             show: false
           }
         },
-        colors: ['#77B6EA', '#545454'],
+        colors: ['#77B6EA', '#545454', "green" ],
         dataLabels: {
           enabled: true,
         },
